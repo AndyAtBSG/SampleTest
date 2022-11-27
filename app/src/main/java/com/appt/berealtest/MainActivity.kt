@@ -30,11 +30,13 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainActivityContent(viewModel: FileExplorerViewModel = viewModel()) {
+fun MainActivityContent(viewModel: FileExplorerViewModel = viewModel(factory = FileExplorerViewModel.Factory)) {
     if (viewModel.signedIn) {
-        SignIn(error = false, signIn = { _, _ -> })
-    } else {
         FileExplorer()
+    } else {
+        SignIn(
+            error = false,
+            signIn = { username, password -> viewModel.signIn(username, password) })
     }
 }
 
@@ -43,6 +45,6 @@ fun MainActivityContent(viewModel: FileExplorerViewModel = viewModel()) {
 @Composable
 fun DefaultPreview() {
     BeRealTestTheme {
-        FileExplorer()
+        SignIn(error = false, signIn = { _, _ -> })
     }
 }
