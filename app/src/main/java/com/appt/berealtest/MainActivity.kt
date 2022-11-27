@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Content()
+                    MainActivityContent()
                 }
             }
         }
@@ -32,7 +32,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Content(viewModel: FileExplorerViewModel = viewModel()) {
+fun MainActivityContent(viewModel: FileExplorerViewModel = viewModel()) {
     if (viewModel.signedIn.value) {
         SignIn(error = false, signIn = { _, _ -> })
     } else {

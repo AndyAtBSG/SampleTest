@@ -6,38 +6,55 @@ import com.appt.berealtest.services.SignInResponse
 class FileExplorerViewModel(
     private val imageService: BeRealImageService
 ) : ViewModel() {
-    val signedIn = mutableStateOf(false)
-    val loading = mutableStateOf(false)
-    val error = mutableStateOf(false)
-    val rootName = mutableStateOf<String?>(null)
-    val directories = mutableListOf<FileDirectory>()
-    val images = mutableListOf<ImageFile>()
+    private val _signedIn = mutableStateOf(false)
+    val signedIn: Boolean
+        get() = _signedIn.value
+
+    private val _loading = mutableStateOf(false)
+    val loading: Boolean
+        get() = _loading.value
+
+    private val _error = mutableStateOf(false)
+    val error: Boolean
+        get() = _error.value
+
+    private val _rootName = mutableStateOf<String?>(null)
+    val rootName: String?
+        get() = _rootName.value
+
+    private val _directories = mutableListOf<FileDirectory>()
+    val directories: List<FileDirectory>
+        get() = _directories
+
+    private val _images = mutableListOf<ImageFile>()
+    val images: List<ImageFile>
+        get() = _images
 
 
     suspend fun signIn(userName: String, password: String) {
-        error.value = false
-        loading.value = true
+        _error.value = false
+        _loading.value = true
 
         when (val response = imageService.signIn(userName, password)) {
             SignInResponse.Fail -> handleSignInFail()
             is SignInResponse.Success -> handleSignInSuccess(response)
         }
-        loading.value = false
+        _loading.value = false
     }
 
     private fun handleSignInFail() {
-        signedIn.value = false
-        error.value = true
-        rootName.value = null
-        directories.clear()
-        images.clear()
+        _signedIn.value = false
+        _error.value = true
+        _rootName.value = null
+        _directories.clear()
+        _images.clear()
     }
 
     private fun handleSignInSuccess(response: SignInResponse.Success) {
-        signedIn.value = true
-        rootName.value = response.rootItem.name
+        _signedIn.value = true
+        _rootName.value = response.rootItem.name
 
-        directories.add(
+        _directories.add(
             FileDirectory(
                 id = response.rootItem.id,
                 name = response.rootItem.name
