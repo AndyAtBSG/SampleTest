@@ -40,20 +40,13 @@ fun Content(viewModel: FileExplorerViewModel = viewModel()) {
     }
 }
 
-@Composable
-fun SignIn(error: Boolean, signIn: (userName: String, password: String) -> Unit) {
-    Text(text = "Sign In")
-}
 
-@Composable
-fun FileExplorer() {
-    Text(text = "Explorer")
-}
+
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     BeRealTestTheme {
-
+        FileExplorer()
     }
 }
