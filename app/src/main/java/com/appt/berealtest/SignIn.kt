@@ -20,18 +20,20 @@ fun SignIn(error: Boolean, signIn: (userName: String, password: String) -> Unit)
 
     Column {
 
-
         Text(text = stringResource(R.string.signInTitle))
+
         TextField(
             value = username.value,
             onValueChange = { username.value = it },
             label = { Text(stringResource(R.string.username)) }
         )
+
         TextField(
             value = password.value,
             onValueChange = { password.value = it },
             label = { Text(stringResource(R.string.password)) }
         )
+        
         Button(onClick = { signIn(username.value.text, password.value.text) }) {
             Text(text = stringResource(R.string.signIn))
         }
