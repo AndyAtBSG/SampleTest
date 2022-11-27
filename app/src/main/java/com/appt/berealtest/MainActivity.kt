@@ -1,5 +1,6 @@
 package com.appt.berealtest
 
+import FileExplorerViewModel
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.appt.berealtest.ui.theme.BeRealTestTheme
 
 class MainActivity : ComponentActivity() {
@@ -22,7 +24,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Greeting("Android")
+                    Content()
                 }
             }
         }
@@ -30,14 +32,28 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
+fun Content(viewModel: FileExplorerViewModel = viewModel()) {
+    if (viewModel.signedIn.value) {
+        SignIn(error = false, signIn = { _, _ -> })
+    } else {
+        FileExplorer()
+    }
+}
+
+@Composable
+fun SignIn(error: Boolean, signIn: (userName: String, password: String) -> Unit) {
+    Text(text = "Sign In")
+}
+
+@Composable
+fun FileExplorer() {
+    Text(text = "Explorer")
 }
 
 @Preview(showBackground = true)
 @Composable
 fun DefaultPreview() {
     BeRealTestTheme {
-        Greeting("Android")
+
     }
 }
