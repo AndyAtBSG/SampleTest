@@ -31,11 +31,11 @@ class FileExplorerViewModel(
         get() = _images
 
 
-    suspend fun signIn(userName: String, password: String) {
+    suspend fun signIn(username: String, password: String) {
         _error.value = false
         _loading.value = true
 
-        when (val response = imageService.signIn(userName, password)) {
+        when (val response = imageService.signIn(username, password)) {
             SignInResponse.Fail -> handleSignInFail()
             is SignInResponse.Success -> handleSignInSuccess(response)
         }

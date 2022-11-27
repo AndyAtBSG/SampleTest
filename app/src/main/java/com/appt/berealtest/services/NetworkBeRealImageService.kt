@@ -3,7 +3,7 @@ package com.appt.berealtest.services
 import FileDirectory
 
 class NetworkBeRealImageService : BeRealImageService {
-    override suspend fun signIn(userName: String, password: String): SignInResponse {
+    override suspend fun signIn(username: String, password: String): SignInResponse {
         return SignInResponse.Success(
             FileDirectory("123", "Some Folder")
         )

@@ -11,5 +11,5 @@ sealed class SignInResponse {
 }
 
 interface BeRealImageService {
-    suspend fun signIn(userName: String, password: String): SignInResponse
+    suspend fun signIn(username: String, password: String): SignInResponse
 }
