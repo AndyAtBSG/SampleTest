@@ -15,6 +15,9 @@ import kotlinx.coroutines.launch
 class FileExplorerViewModel(
     private val imageService: BeRealImageService
 ) : ViewModel() {
+    // Changes to these values will not trigger state updates
+    private var username = ""
+    private var password = ""
 
     var signOff = mutableStateOf(false)
         private set
@@ -58,6 +61,9 @@ class FileExplorerViewModel(
     }
 
     private suspend fun makeSignInRequest(username: String, password: String) {
+        this.username = username
+        this.password = password
+
         when (val response = imageService.signIn(username, password)) {
             SignInResponse.Fail -> handleSignInFail()
             is SignInResponse.Success -> handleSignInSuccess(response)
@@ -67,6 +73,8 @@ class FileExplorerViewModel(
 
 
     private fun handleSignInFail() {
+        username = ""
+        password = ""
         _signedIn.value = false
         _error.value = true
         _rootName.value = null
