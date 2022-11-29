@@ -11,3 +11,4 @@ Notes:
 - Started with component tests, then the integration tests
 - I like to create helper functions for tests, like Jake Wharton's Robot pattern
 - Image cache
+- Nothing defencive done to prevent clicks

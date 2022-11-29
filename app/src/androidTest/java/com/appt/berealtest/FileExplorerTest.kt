@@ -23,8 +23,7 @@ class FileExplorerTest {
         ImageFile("imageId-1", "imageName-1")
     )
     private lateinit var receivedDirectoryId: String
-
-
+    
     @Test
     fun shouldDisplayDirectories() {
         givenAFileExplorer(mockDirectories, emptyList())
