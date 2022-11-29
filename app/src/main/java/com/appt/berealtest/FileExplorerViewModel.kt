@@ -11,8 +11,9 @@ import kotlinx.coroutines.launch
 class FileExplorerViewModel(
     private val imageService: BeRealImageService
 ) : ViewModel() {
-    private var username: String = ""
-    private var password: String = ""
+
+    var signOff = mutableStateOf(false)
+        private set
 
     private val _signedIn = mutableStateOf(false)
     val signedIn: Boolean
@@ -40,26 +41,28 @@ class FileExplorerViewModel(
 
 
     fun signIn(username: String, password: String) {
-        this.username = username
-        this.password = password
+        signOff.value = true
 
         _error.value = false
         _loading.value = true
 
 
         viewModelScope.launch {
-            when (val response = imageService.signIn(username, password)) {
-                SignInResponse.Fail -> handleSignInFail()
-                is SignInResponse.Success -> handleSignInSuccess(response)
-            }
-            _loading.value = false
+            makeSignInRequest(username, password)
         }
 
     }
 
+    private suspend fun makeSignInRequest(username: String, password: String) {
+        when (val response = imageService.signIn(username, password)) {
+            SignInResponse.Fail -> handleSignInFail()
+            is SignInResponse.Success -> handleSignInSuccess(response)
+        }
+        _loading.value = false
+    }
+
+
     private fun handleSignInFail() {
-        username = ""
-        password = ""
         _signedIn.value = false
         _error.value = true
         _rootName.value = null
@@ -79,7 +82,6 @@ class FileExplorerViewModel(
     }
 
     companion object {
-
         val Factory = viewModelFactory {
             initializer {
                 FileExplorerViewModel(

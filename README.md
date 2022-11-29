@@ -5,3 +5,7 @@ Notes:
 - Code style is vague as I find almost every project has it's own requirements
 - I've avoided mocking frameworks (e.g Mockito, Roboelectric, MockWebServer) as the requirements were simple
 - Security. This is a public api with basic auth, so I haven't used security. I would never ship with credentials but for the sake of this test.
+- Errors. I've made no attempt to make errors user friendly. In an ideal world error behaviour should be treated as seriously as the main requirements.
+- Persistence. Using a DB would be excessive for this usecase. Although it would make the UI more responsive. I've gone with just VM 
+- Prevent writing the VM state from outside the VM
+- 

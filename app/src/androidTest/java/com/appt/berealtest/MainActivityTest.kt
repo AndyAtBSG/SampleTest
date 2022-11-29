@@ -38,7 +38,7 @@ class MockBeRealImageService : BeRealImageService {
     }
 
     fun whenSignInFails() {
-        signInResult.completeExceptionally(RuntimeException())
+        signInResult.complete(SignInResponse.Fail)
     }
 }
 
@@ -73,9 +73,10 @@ class MainActivityTest {
 
         composeTestRule.onNodeWithText("Sign In").performClick()
 
-        imageService.whenSignInSucceeds(FileDirectory("1", "Folder"))
+        imageService.whenSignInFails()
 
-        composeTestRule.onNodeWithText("Explorer").assertIsDisplayed()
+        composeTestRule.onNodeWithText("Explorer").assertDoesNotExist()
+        composeTestRule.onNodeWithText("Something went wrong").assertExists()
     }
 
 
