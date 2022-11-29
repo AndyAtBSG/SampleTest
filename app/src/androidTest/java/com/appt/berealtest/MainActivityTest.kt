@@ -4,6 +4,7 @@ import FileDirectory
 import FileExplorerViewModel
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.appt.berealtest.services.BeRealImageService
@@ -33,7 +34,7 @@ class MockBeRealImageService : BeRealImageService {
 
 class MainActivityTest {
     @get:Rule
-    val composeTestRule = createAndroidComposeRule<MainActivity>()
+    val composeTestRule = createComposeRule()
 
     private val imageService = MockBeRealImageService()
     private val viewModel = FileExplorerViewModel(imageService)
@@ -44,7 +45,11 @@ class MainActivityTest {
             MainActivityContent(viewModel)
         }
 
+        composeTestRule.onNodeWithText("Sign In").assertIsDisplayed()
+
         composeTestRule.onNodeWithText("Sign In").performClick()
+
+        imageService.whenSignInSucceeds(FileDirectory("1", "Folder"))
 
         composeTestRule.onNodeWithText("Explorer").assertIsDisplayed()
     }

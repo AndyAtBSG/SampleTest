@@ -2,6 +2,6 @@
     <string name="app_name">BeRealTest</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
-    <string name="signInTitle">Sign In</string>
+    <string name="signInTitle">Welcome</string>
     <string name="signIn">Sign In</string>
 </resources>
