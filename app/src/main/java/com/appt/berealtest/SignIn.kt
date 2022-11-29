@@ -14,7 +14,7 @@ import com.appt.berealtest.ui.theme.BeRealTestTheme
 
 
 @Composable
-fun SignIn(error: Boolean, signIn: (userName: String, password: String) -> Unit) {
+fun SignIn(error: Boolean, signIn: (username: String, password: String) -> Unit) {
     val username = remember { mutableStateOf(TextFieldValue()) }
     val password = remember { mutableStateOf(TextFieldValue()) }
 
@@ -33,10 +33,12 @@ fun SignIn(error: Boolean, signIn: (userName: String, password: String) -> Unit)
             onValueChange = { password.value = it },
             label = { Text(stringResource(R.string.password)) }
         )
-        
+
         Button(onClick = { signIn(username.value.text, password.value.text) }) {
             Text(text = stringResource(R.string.signIn))
         }
+
+        if (error) Text(text = stringResource(R.string.error))
     }
 }
 
