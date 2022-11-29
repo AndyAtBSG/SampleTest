@@ -1,3 +1,7 @@
+package com.appt.berealtest
+
+import FileDirectory
+import ImageFile
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

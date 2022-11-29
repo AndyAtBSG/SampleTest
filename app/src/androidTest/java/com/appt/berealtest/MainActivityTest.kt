@@ -1,7 +1,6 @@
 package com.appt.berealtest
 
 import FileDirectory
-import FileExplorerViewModel
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
