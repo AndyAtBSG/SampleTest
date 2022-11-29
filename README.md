@@ -12,3 +12,5 @@ Notes:
 - I like to create helper functions for tests, like Jake Wharton's Robot pattern
 - Image cache
 - Nothing defencive done to prevent clicks
+- Error handling
+- String resources and URLs

@@ -31,11 +31,12 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainActivityContent(viewModel: FileExplorerViewModel = viewModel(factory = FileExplorerViewModel.Factory)) {
     if (viewModel.signedIn) {
-        FileExplorer(emptyList(), emptyList()) {}
+        FileExplorer(viewModel.directories, viewModel.images, viewModel::openDirectory)
     } else {
         SignIn(
             error = false,
-            signIn = { username, password -> viewModel.signIn(username, password) })
+            signIn = { username, password -> viewModel.signIn(username, password) }
+        )
     }
 }
 

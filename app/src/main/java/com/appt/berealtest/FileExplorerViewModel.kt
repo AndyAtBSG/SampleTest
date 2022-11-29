@@ -46,6 +46,10 @@ class FileExplorerViewModel(
     val images: List<ImageFile>
         get() = _images
 
+    private val _selectedImage = mutableStateOf<ImageFile?>(null)
+    val selectedImage: ImageFile?
+        get() = _selectedImage.value
+
 
     fun signIn(username: String, password: String) {
         signOff.value = true
@@ -57,6 +61,10 @@ class FileExplorerViewModel(
         viewModelScope.launch {
             makeSignInRequest(username, password)
         }
+
+    }
+
+    fun openDirectory(directoryId: String) {
 
     }
 

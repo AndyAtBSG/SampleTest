@@ -1,26 +1,40 @@
 package com.appt.berealtest
 
 import FileDirectory
+import ImageFile
 import com.appt.berealtest.services.BeRealImageService
+import com.appt.berealtest.services.GetDirectoryResponse
 import com.appt.berealtest.services.SignInResponse
 import kotlinx.coroutines.CompletableDeferred
-import org.junit.Assert
+import org.junit.Assert.assertEquals
 
 class MockBeRealImageService : BeRealImageService {
-    lateinit var signInResult: CompletableDeferred<SignInResponse>
-    var receivedUsername = ""
-    var receivedPassword = ""
+    private lateinit var signInResult: CompletableDeferred<SignInResponse>
+    private var signInUsername = ""
+    private var signInPassword = ""
+
+    private lateinit var getDirectoryResult: CompletableDeferred<GetDirectoryResponse>
+    private var getDirectoryUsername = ""
+    private var getDirectoryPassword = ""
+    private var getDirectoryId = ""
 
     override suspend fun signIn(username: String, password: String): SignInResponse {
-        receivedUsername = username
-        receivedPassword = password
+        signInUsername = username
+        signInPassword = password
         signInResult = CompletableDeferred()
         return signInResult.await()
     }
 
-    fun thenSignInIsCalled(expectedUsername: String, expectedPassword: String) {
-        Assert.assertEquals(expectedUsername, receivedUsername)
-        Assert.assertEquals(expectedPassword, receivedPassword)
+    override suspend fun getDirectory(
+        username: String,
+        password: String,
+        directoryId: String
+    ): GetDirectoryResponse {
+        getDirectoryUsername = username
+        getDirectoryPassword = password
+        getDirectoryId = directoryId
+        getDirectoryResult = CompletableDeferred()
+        return getDirectoryResult.await()
     }
 
     fun whenSignInSucceeds(rootItem: FileDirectory) {
@@ -32,4 +46,32 @@ class MockBeRealImageService : BeRealImageService {
     fun whenSignInFails() {
         signInResult.complete(SignInResponse.Fail)
     }
+
+    fun whenGetDirectorySucceeds(directories: List<FileDirectory>, images: List<ImageFile>) {
+        getDirectoryResult.complete(
+            GetDirectoryResponse.Success(directories, images)
+        )
+    }
+
+    fun whenGetDirectoryFails() {
+        getDirectoryResult.complete(
+            GetDirectoryResponse.Fail
+        )
+    }
+
+    fun thenSignInIsCalled(expectedUsername: String, expectedPassword: String) {
+        assertEquals(expectedUsername, signInUsername)
+        assertEquals(expectedPassword, signInPassword)
+    }
+
+    fun thenGetDirectoryIsCalled(
+        expectedUsername: String,
+        expectedPassword: String,
+        expectedDirectoryId: String
+    ) {
+        assertEquals(expectedUsername, getDirectoryUsername)
+        assertEquals(expectedPassword, getDirectoryPassword)
+        assertEquals(expectedDirectoryId, getDirectoryId)
+    }
+
 }

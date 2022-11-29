@@ -1,7 +1,6 @@
 package com.appt.berealtest
 
 import FileDirectory
-import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -22,14 +21,14 @@ class MainActivityTest {
             MainActivityContent(viewModel)
         }
 
-        composeTestRule.onNodeWithText("Username").performTextInput("SomeUser")
-        composeTestRule.onNodeWithText("Password").performTextInput("SomePassword")
+        composeTestRule.onNodeWithText("Username").performTextInput("someUser")
+        composeTestRule.onNodeWithText("Password").performTextInput("somePassword")
         composeTestRule.onNodeWithText("Sign In").performClick()
-        imageService.thenSignInIsCalled("SomeUser", "SomePassword")
+        imageService.thenSignInIsCalled("someUser", "somePassword")
 
-        imageService.whenSignInSucceeds(FileDirectory("1", "Folder"))
+        imageService.whenSignInSucceeds(FileDirectory("1", "SomeDirectory"))
 
-        composeTestRule.onNodeWithText("Explorer").assertIsDisplayed()
+        composeTestRule.onNodeWithText("SomeDirectory")
     }
 
     @Test
@@ -44,5 +43,39 @@ class MainActivityTest {
 
         composeTestRule.onNodeWithText("Explorer").assertDoesNotExist()
         composeTestRule.onNodeWithText("Something went wrong").assertExists()
+    }
+
+    @Test
+    fun shouldRequestFoldersWhenDirectorySelected() {
+        composeTestRule.setContent {
+            MainActivityContent(viewModel)
+        }
+
+        composeTestRule.onNodeWithText("Username").performTextInput("someUser")
+        composeTestRule.onNodeWithText("Password").performTextInput("somePassword")
+        composeTestRule.onNodeWithText("Sign In").performClick()
+        imageService.whenSignInSucceeds(
+            FileDirectory("id-1", "someDirectory")
+        )
+
+        composeTestRule.onNodeWithText("someDirectory").performClick()
+        imageService.thenGetDirectoryIsCalled(
+            "someUser",
+            "somePassword",
+            "id-1"
+        )
+    }
+
+    @Test
+    fun shouldDisplayImageWhenImageSelected() {
+        composeTestRule.setContent {
+            MainActivityContent(viewModel)
+        }
+
+        imageService.whenSignInSucceeds(FileDirectory("1", "Folder"))
+
+        composeTestRule.onNodeWithText("Explorer").assertDoesNotExist()
+        composeTestRule.onNodeWithText("Something went wrong").assertExists()
+
     }
 }
