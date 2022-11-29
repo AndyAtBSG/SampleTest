@@ -6,40 +6,8 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import com.appt.berealtest.services.BeRealImageService
-import com.appt.berealtest.services.SignInResponse
-import kotlinx.coroutines.CompletableDeferred
-import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
-
-class MockBeRealImageService : BeRealImageService {
-    lateinit var signInResult: CompletableDeferred<SignInResponse>
-    var receivedUsername = ""
-    var receivedPassword = ""
-
-    override suspend fun signIn(username: String, password: String): SignInResponse {
-        receivedUsername = username
-        receivedPassword = password
-        signInResult = CompletableDeferred()
-        return signInResult.await()
-    }
-
-    fun thenSignInIsCalled(expectedUsername: String, expectedPassword: String) {
-        assertEquals(expectedUsername, receivedUsername)
-        assertEquals(expectedPassword, receivedPassword)
-    }
-
-    fun whenSignInSucceeds(rootItem: FileDirectory) {
-        signInResult.complete(
-            SignInResponse.Success(rootItem)
-        )
-    }
-
-    fun whenSignInFails() {
-        signInResult.complete(SignInResponse.Fail)
-    }
-}
 
 class MainActivityTest {
     @get:Rule
@@ -77,6 +45,4 @@ class MainActivityTest {
         composeTestRule.onNodeWithText("Explorer").assertDoesNotExist()
         composeTestRule.onNodeWithText("Something went wrong").assertExists()
     }
-
-
 }

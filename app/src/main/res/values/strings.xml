@@ -5,4 +5,7 @@
     <string name="error">Something went wrong</string>
     <string name="signInTitle">Welcome</string>
     <string name="signIn">Sign In</string>
+
+    <string name="contentDescription_Directory">Directory %1$s!</string>
+    <string name="contentDescription_Image">Image %1$s!</string>
 </resources>

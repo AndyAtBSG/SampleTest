@@ -8,4 +8,6 @@ Notes:
 - Errors. I've made no attempt to make errors user friendly. In an ideal world error behaviour should be treated as seriously as the main requirements.
 - Persistence. Using a DB would be excessive for this usecase. Although it would make the UI more responsive. I've gone with just VM 
 - Prevent writing the VM state from outside the VM
-- 
+- Started with component tests, then the integration tests
+- I like to create helper functions for tests, like Jake Wharton's Robot pattern
+- Image cache

@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainActivityContent(viewModel: FileExplorerViewModel = viewModel(factory = FileExplorerViewModel.Factory)) {
     if (viewModel.signedIn) {
-        FileExplorer()
+        FileExplorer(emptyList(), emptyList())
     } else {
         SignIn(
             error = false,
