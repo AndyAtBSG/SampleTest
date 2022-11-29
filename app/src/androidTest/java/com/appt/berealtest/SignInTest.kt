@@ -45,5 +45,4 @@ class SignInTest {
 
         composeTestRule.onNode(hasText("Something went wrong")).assertExists()
     }
-
 }
