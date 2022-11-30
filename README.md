@@ -14,3 +14,4 @@ Notes:
 - Nothing defencive done to prevent clicks
 - Error handling
 - String resources and URLs
+- Pass data by ID. It can be slower but it forces you to be more robust in the end

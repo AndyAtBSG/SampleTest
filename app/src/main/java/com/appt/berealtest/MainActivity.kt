@@ -30,16 +30,16 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainActivityContent(viewModel: FileExplorerViewModel = viewModel(factory = FileExplorerViewModel.Factory)) {
-    if (viewModel.signedIn) {
-        FileExplorer(viewModel.directories, viewModel.images, viewModel::openDirectory)
+    val uiState = viewModel.uiState.value
+    if (uiState.signedIn) {
+        FileExplorer(uiState.directories, uiState.images, viewModel::openDirectory)
     } else {
         SignIn(
-            error = viewModel.error,
+            error = uiState.error,
             signIn = { username, password -> viewModel.signIn(username, password) }
         )
     }
 }
-
 
 @Preview(showBackground = true)
 @Composable

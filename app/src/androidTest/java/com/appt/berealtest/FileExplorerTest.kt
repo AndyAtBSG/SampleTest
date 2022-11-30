@@ -2,6 +2,7 @@ package com.appt.berealtest
 
 import FileDirectory
 import ImageFile
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -29,7 +30,7 @@ class FileExplorerTest {
         givenAFileExplorer(mockDirectories, emptyList())
 
         mockDirectories.forEach {
-            composeTestRule.onNodeWithText(it.name).assertExists()
+            composeTestRule.onNodeWithText(it.name).assertIsDisplayed()
         }
     }
 
@@ -38,7 +39,7 @@ class FileExplorerTest {
         givenAFileExplorer(emptyList(), mockImages)
 
         mockImages.forEach {
-            composeTestRule.onNodeWithText(it.name).assertExists()
+            composeTestRule.onNodeWithText(it.name).assertIsDisplayed()
         }
     }
 

@@ -1,5 +1,6 @@
 package com.appt.berealtest
 
+import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.performClick
@@ -43,6 +44,6 @@ class SignInTest {
             }
         }
 
-        composeTestRule.onNode(hasText("Something went wrong")).assertExists()
+        composeTestRule.onNode(hasText("Something went wrong")).assertIsDisplayed()
     }
 }

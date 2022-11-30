@@ -49,7 +49,10 @@ fun FileExplorer(
 @Composable
 fun ItemDirectory(fileDirectory: FileDirectory, onDirectorySelected: (id: String) -> Unit) {
     Row(
-        modifier = Modifier.clickable { onDirectorySelected(fileDirectory.id) }
+        modifier = Modifier.clickable {
+            println("ANDROB01 - Opening Directory ${fileDirectory.id}")
+            onDirectorySelected(fileDirectory.id)
+        }
     ) {
         Icon(
             Icons.Rounded.Send,

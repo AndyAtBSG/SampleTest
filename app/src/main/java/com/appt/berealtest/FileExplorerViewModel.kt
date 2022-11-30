@@ -13,6 +13,16 @@ import com.appt.berealtest.services.NetworkBeRealImageService
 import com.appt.berealtest.services.SignInResponse
 import kotlinx.coroutines.launch
 
+data class FileExplorerUiState(
+    val signedIn: Boolean = false,
+    val loading: Boolean = false,
+    val error: Boolean = false,
+    val rootName: String? = null,
+    val directories: List<FileDirectory> = emptyList(),
+    val images: List<ImageFile> = emptyList(),
+    val selectedImage: ImageFile? = null
+)
+
 class FileExplorerViewModel(
     private val imageService: BeRealImageService
 ) : ViewModel() {
@@ -21,49 +31,17 @@ class FileExplorerViewModel(
     private var username = ""
     private var password = ""
 
-    var signOff = mutableStateOf(false)
-        private set
-
-    private val _signedIn = mutableStateOf(false)
-    val signedIn: Boolean
-        get() = _signedIn.value
-
-    private val _loading = mutableStateOf(false)
-    val loading: Boolean
-        get() = _loading.value
-
-    private val _error = mutableStateOf(false)
-    val error: Boolean
-        get() = _error.value
-
-    private val _rootName = mutableStateOf<String?>(null)
-    val rootName: String?
-        get() = _rootName.value
-
-    private val _directories = mutableListOf<FileDirectory>()
-    val directories: List<FileDirectory>
-        get() = _directories
-
-    private val _images = mutableListOf<ImageFile>()
-    val images: List<ImageFile>
-        get() = _images
-
-    private val _selectedImage = mutableStateOf<ImageFile?>(null)
-    val selectedImage: ImageFile?
-        get() = _selectedImage.value
-
+    val uiState = mutableStateOf(FileExplorerUiState())
 
     fun signIn(username: String, password: String) {
-        signOff.value = true
-
-        _error.value = false
-        _loading.value = true
-
+        uiState.value = uiState.value.copy(
+            error = false,
+            loading = true
+        )
 
         viewModelScope.launch {
             makeSignInRequest(username, password)
         }
-
     }
 
     fun openDirectory(directoryId: String) {
@@ -83,36 +61,32 @@ class FileExplorerViewModel(
             SignInResponse.Fail -> signOut()
             is SignInResponse.Success -> handleSignInSuccess(response)
         }
-        _loading.value = false
     }
-
 
     private fun signOut() {
         username = ""
         password = ""
-        _signedIn.value = false
-        _error.value = true
-        _rootName.value = null
-        _directories.clear()
-        _images.clear()
+
+        uiState.value = FileExplorerUiState(
+            error = true
+        )
     }
 
     private fun handleSignInSuccess(response: SignInResponse.Success) {
-        _signedIn.value = true
-        _rootName.value = response.rootItem.name
-
-        _directories.add(
-            FileDirectory(
-                id = response.rootItem.id, name = response.rootItem.name
-            )
+        uiState.value = uiState.value.copy(
+            signedIn = true,
+            rootName = response.rootItem.name,
+            directories = listOf(response.rootItem),
+            loading = false
         )
     }
 
     private fun handleGetDirectorySuccess(response: GetDirectoryResponse.Success) {
-        _directories.clear()
-        _directories.addAll(response.directories)
-        _images.clear()
-        _images.addAll(response.images)
+        println("ANDROB01 - Updating ${response.directories.joinToString { it.name }} - ${response.images.joinToString { it.name }}")
+        uiState.value = uiState.value.copy(
+            directories = response.directories,
+            images = response.images
+        )
     }
 
     companion object {
@@ -123,7 +97,5 @@ class FileExplorerViewModel(
                 )
             }
         }
-
     }
-
 }
