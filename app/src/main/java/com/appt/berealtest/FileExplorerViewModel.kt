@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.appt.berealtest.services.BeRealImageService
+import com.appt.berealtest.services.GetDirectoryResponse
 import com.appt.berealtest.services.NetworkBeRealImageService
 import com.appt.berealtest.services.SignInResponse
 import kotlinx.coroutines.launch
@@ -66,7 +67,12 @@ class FileExplorerViewModel(
     }
 
     fun openDirectory(directoryId: String) {
-
+        viewModelScope.launch {
+            when (val response = imageService.getDirectory(username, password, directoryId)) {
+                GetDirectoryResponse.Fail -> signOut()
+                is GetDirectoryResponse.Success -> handleGetDirectorySuccess(response)
+            }
+        }
     }
 
     private suspend fun makeSignInRequest(username: String, password: String) {
@@ -74,14 +80,14 @@ class FileExplorerViewModel(
         this.password = password
 
         when (val response = imageService.signIn(username, password)) {
-            SignInResponse.Fail -> handleSignInFail()
+            SignInResponse.Fail -> signOut()
             is SignInResponse.Success -> handleSignInSuccess(response)
         }
         _loading.value = false
     }
 
 
-    private fun handleSignInFail() {
+    private fun signOut() {
         username = ""
         password = ""
         _signedIn.value = false
@@ -100,6 +106,13 @@ class FileExplorerViewModel(
                 id = response.rootItem.id, name = response.rootItem.name
             )
         )
+    }
+
+    private fun handleGetDirectorySuccess(response: GetDirectoryResponse.Success) {
+        _directories.clear()
+        _directories.addAll(response.directories)
+        _images.clear()
+        _images.addAll(response.images)
     }
 
     companion object {

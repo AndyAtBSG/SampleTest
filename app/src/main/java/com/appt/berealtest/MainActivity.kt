@@ -34,7 +34,7 @@ fun MainActivityContent(viewModel: FileExplorerViewModel = viewModel(factory = F
         FileExplorer(viewModel.directories, viewModel.images, viewModel::openDirectory)
     } else {
         SignIn(
-            error = false,
+            error = viewModel.error,
             signIn = { username, password -> viewModel.signIn(username, password) }
         )
     }

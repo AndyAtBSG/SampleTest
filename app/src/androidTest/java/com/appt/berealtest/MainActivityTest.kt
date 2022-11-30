@@ -41,7 +41,6 @@ class MainActivityTest {
 
         imageService.whenSignInFails()
 
-        composeTestRule.onNodeWithText("Explorer").assertDoesNotExist()
         composeTestRule.onNodeWithText("Something went wrong").assertExists()
     }
 
