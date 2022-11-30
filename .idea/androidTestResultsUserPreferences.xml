@@ -141,7 +141,9 @@
                 <map>
                   <entry key="Duration" value="90" />
                   <entry key="Lil_Sixy" value="120" />
+                  <entry key="Pixel_5_API_30" value="120" />
                   <entry key="Tests" value="360" />
+                  <entry key="ThisOne" value="120" />
                   <entry key="Trixy_Pixy" value="120" />
                 </map>
               </option>

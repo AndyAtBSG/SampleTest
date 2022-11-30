@@ -16,6 +16,7 @@ class FileExplorerViewModel(
     private val imageService: BeRealImageService
 ) : ViewModel() {
     // Changes to these values will not trigger state updates
+    //PERSIST IN NETWORK
     private var username = ""
     private var password = ""
 
