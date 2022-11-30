@@ -24,7 +24,8 @@ class FileExplorerTest {
         ImageFile("imageId-1", "imageName-1")
     )
     private lateinit var receivedDirectoryId: String
-    
+    private lateinit var receivedImageId: String
+
     @Test
     fun shouldDisplayDirectories() {
         givenAFileExplorer(mockDirectories, emptyList())
@@ -50,12 +51,21 @@ class FileExplorerTest {
         assertEquals(mockDirectories[0].id, receivedDirectoryId)
     }
 
+    @Test
+    fun shouldNotifyWhenImageClicked() {
+        givenAFileExplorer(emptyList(), mockImages)
+        composeTestRule.onNodeWithText(mockImages[0].name).performClick()
+        assertEquals(mockDirectories[0].id, receivedDirectoryId)
+    }
+
     private fun givenAFileExplorer(directories: List<FileDirectory>, images: List<ImageFile>) {
         composeTestRule.setContent {
             BeRealTestTheme {
-                FileExplorer(directories, images) {
+                FileExplorer(directories, images, {
                     receivedDirectoryId = it
-                }
+                }, {
+                    receivedImageId = it
+                })
             }
         }
     }

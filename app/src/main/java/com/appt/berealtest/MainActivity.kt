@@ -31,8 +31,11 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainActivityContent(viewModel: FileExplorerViewModel = viewModel(factory = FileExplorerViewModel.Factory)) {
     val uiState = viewModel.uiState.value
-    if (uiState.signedIn) {
-        FileExplorer(uiState.directories, uiState.images, viewModel::openDirectory)
+
+    if (uiState.selectedImage != null) {
+        ImageHolder(uiState.selectedImage)
+    } else if (uiState.signedIn) {
+        FileExplorer(uiState.directories, uiState.images, viewModel::openDirectory, viewModel::selectImage)
     } else {
         SignIn(
             error = uiState.error,

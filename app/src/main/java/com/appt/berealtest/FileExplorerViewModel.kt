@@ -53,6 +53,12 @@ class FileExplorerViewModel(
         }
     }
 
+    fun selectImage(imageId: String) {
+        uiState.value = uiState.value.copy(
+            selectedImage = uiState.value.images.first { it.id == imageId }
+        )
+    }
+
     private suspend fun makeSignInRequest(username: String, password: String) {
         this.username = username
         this.password = password

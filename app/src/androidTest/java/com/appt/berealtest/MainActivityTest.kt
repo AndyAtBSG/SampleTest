@@ -2,11 +2,9 @@ package com.appt.berealtest
 
 import FileDirectory
 import ImageFile
-import androidx.compose.ui.test.assertIsDisplayed
+import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performTextInput
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 
@@ -17,12 +15,15 @@ class MainActivityTest {
     private val imageService = MockBeRealImageService()
     private val viewModel = FileExplorerViewModel(imageService)
 
-    @Test
-    fun shouldDisplayExplorerWhenSignInSucceeds() {
+    @Before
+    fun setUp() {
         composeTestRule.setContent {
             MainActivityContent(viewModel)
         }
+    }
 
+    @Test
+    fun shouldDisplayExplorerWhenSignInSucceeds() {
         composeTestRule.onNodeWithText("Username").performTextInput("someUser")
         composeTestRule.onNodeWithText("Password").performTextInput("somePassword")
         composeTestRule.onNodeWithText("Sign In").performClick()
@@ -35,10 +36,6 @@ class MainActivityTest {
 
     @Test
     fun shouldDisplayErrorWhenSignInFails() {
-        composeTestRule.setContent {
-            MainActivityContent(viewModel)
-        }
-
         composeTestRule.onNodeWithText("Sign In").performClick()
 
         imageService.whenSignInFails()
@@ -48,10 +45,6 @@ class MainActivityTest {
 
     @Test
     fun shouldRequestFoldersWhenDirectorySelected() {
-        composeTestRule.setContent {
-            MainActivityContent(viewModel)
-        }
-
         whenUserSignsIn()
 
         composeTestRule.onNodeWithText("someDirectory").performClick()
@@ -75,10 +68,6 @@ class MainActivityTest {
 
     @Test
     fun shouldSignOutWhenGetDirectoryFails() {
-        composeTestRule.setContent {
-            MainActivityContent(viewModel)
-        }
-
         whenUserSignsIn()
 
         composeTestRule.onNodeWithText("someDirectory").performClick()
@@ -93,6 +82,18 @@ class MainActivityTest {
         composeTestRule.onNodeWithText("Username").assertIsDisplayed()
     }
 
+    @Test
+    fun shouldDisplayImageWhenImageSelected() {
+        whenUserSignsIn()
+        composeTestRule.onNodeWithText("someDirectory").performClick()
+        imageService.whenGetDirectorySucceeds(
+            emptyList(),
+            listOf(ImageFile("123", "AnImage"))
+        )
+        composeTestRule.onNodeWithText("AnImage").performClick()
+        composeTestRule.onNodeWithContentDescription("AnImage").assertIsDisplayed()
+    }
+
     private fun whenUserSignsIn() {
         composeTestRule.onNodeWithText("Username").performTextInput("someUser")
         composeTestRule.onNodeWithText("Password").performTextInput("somePassword")
@@ -100,18 +101,5 @@ class MainActivityTest {
         imageService.whenSignInSucceeds(
             FileDirectory("id-1", "someDirectory")
         )
-    }
-
-    @Test
-    fun shouldDisplayImageWhenImageSelected() {
-        composeTestRule.setContent {
-            MainActivityContent(viewModel)
-        }
-
-        imageService.whenSignInSucceeds(FileDirectory("1", "Folder"))
-
-        composeTestRule.onNodeWithText("Explorer").assertDoesNotExist()
-        composeTestRule.onNodeWithText("Something went wrong").assertIsDisplayed()
-
     }
 }

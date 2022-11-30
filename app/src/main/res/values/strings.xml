@@ -8,4 +8,5 @@
 
     <string name="contentDescription_Directory">Directory %1$s!</string>
     <string name="contentDescription_Image">Image %1$s!</string>
+    <string name="imageUrl">https://live.staticflickr.com/5487/11272552034_1f7cf3a71c_b.jpg</string>
 </resources>

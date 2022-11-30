@@ -18,12 +18,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.appt.berealtest.ui.theme.BeRealTestTheme
 
-
 @Composable
 fun FileExplorer(
     directories: List<FileDirectory>,
     images: List<ImageFile>,
-    onDirectorySelected: (id: String) -> Unit
+    onDirectorySelected: (id: String) -> Unit,
+    onOnImageSelected: (id: String) -> Unit
 ) {
     Column {
         Text(text = "Explorer")
@@ -40,7 +40,7 @@ fun FileExplorer(
                 items = images,
                 key = { it.id }
             ) {
-                ItemImage(it)
+                ItemImage(it, onOnImageSelected)
             }
         }
     }
@@ -50,7 +50,6 @@ fun FileExplorer(
 fun ItemDirectory(fileDirectory: FileDirectory, onDirectorySelected: (id: String) -> Unit) {
     Row(
         modifier = Modifier.clickable {
-            println("ANDROB01 - Opening Directory ${fileDirectory.id}")
             onDirectorySelected(fileDirectory.id)
         }
     ) {
@@ -63,8 +62,10 @@ fun ItemDirectory(fileDirectory: FileDirectory, onDirectorySelected: (id: String
 }
 
 @Composable
-fun ItemImage(image: ImageFile) {
-    Row {
+fun ItemImage(image: ImageFile, onOnImageSelected: (id: String) -> Unit) {
+    Row(modifier = Modifier.clickable {
+        onOnImageSelected(image.id)
+    }) {
         Icon(Icons.Rounded.Email, stringResource(R.string.contentDescription_Image, image.name))
         Text(image.name)
     }
@@ -74,6 +75,6 @@ fun ItemImage(image: ImageFile) {
 @Composable
 fun FileExplorerPreview() {
     BeRealTestTheme {
-        FileExplorer(emptyList(), emptyList()) {}
+        FileExplorer(emptyList(), emptyList(), {}, {})
     }
 }
