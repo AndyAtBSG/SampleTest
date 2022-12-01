@@ -21,7 +21,7 @@ class MockBeRealApiService : BeRealApi {
     )
     private lateinit var receivedAuth: String
 
-    override fun getMe(authorization: String): Response<GetMeResponse> {
+    override suspend fun getMe(authorization: String): Response<GetMeResponse> {
         receivedAuth = authorization
 
         if (throwException) {
@@ -33,6 +33,10 @@ class MockBeRealApiService : BeRealApi {
         }
 
         return Response.success(getMeResponse)
+    }
+
+    override suspend fun getItems(authorization: String, id: String): Response<List<GetItemsResponse>> {
+        TODO("Not yet implemented")
     }
 
     fun whenServiceWillThrowException() {

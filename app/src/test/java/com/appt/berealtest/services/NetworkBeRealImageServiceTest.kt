@@ -38,8 +38,8 @@ class NetworkBeRealImageServiceTest {
 
     @Test
     fun shouldSendAuthenticationWhenSigningIn() = runTest {
-        service.signIn("aUser", "aPassword")
-        base64EncoderService.thenDataIsEncoded("aUser:aPassword")
+        service.signIn("SomeUsername", "SomePassword")
+        base64EncoderService.thenDataIsEncoded("SomeUsername:SomePassword")
         api.thenAuthorizationIsSet("Basic $base64String")
     }
 }
