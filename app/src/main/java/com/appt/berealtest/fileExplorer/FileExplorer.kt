@@ -2,6 +2,7 @@ package com.appt.berealtest.fileExplorer
 
 import FileDirectory
 import ImageFile
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -71,16 +72,16 @@ fun FileExplorerContent(
                 .padding(0.dp, 24.dp),
         )
 
-        if (isLoading) {
+        AnimatedVisibility(isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.Companion
                     .align(CenterHorizontally)
                     .testTag("LoadingIndicator"),
 
                 )
-        } else {
-            Items(directories, openDirectory, images, openImage)
         }
+        
+        Items(directories, openDirectory, images, openImage)
     }
 }
 

@@ -1,5 +1,6 @@
 package com.appt.berealtest.signIn
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -85,14 +86,19 @@ fun SignInContent(
                 .align(Alignment.CenterHorizontally)
                 .padding(0.dp, 24.dp)
         ) {
-            Text(text = stringResource(R.string.signIn))
-            if (isLoading) {
+            Text(
+                text = stringResource(R.string.signIn),
+                style = MaterialTheme.typography.h5
+            )
+            AnimatedVisibility(isLoading) {
                 CircularProgressIndicator(
+                    color = Color.Green,
                     modifier = Modifier
                         .testTag("LoadingIndicator")
                         .padding(16.dp, 0.dp, 0.dp, 0.dp)
                 )
             }
+
         }
 
     }
