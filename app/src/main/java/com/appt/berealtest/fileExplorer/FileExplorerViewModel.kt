@@ -12,7 +12,7 @@ import com.appt.berealtest.services.BeRealImageService
 import com.appt.berealtest.services.GetDirectoryResponse
 
 data class FileExplorerUiState(
-    val loading: Boolean = false,
+    val isLoading: Boolean = false,
     val subDirectories: List<FileDirectory> = emptyList(),
     val images: List<ImageFile> = emptyList(),
 )

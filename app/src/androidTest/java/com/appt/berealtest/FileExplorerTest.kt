@@ -4,10 +4,10 @@ import FileDirectory
 import ImageFile
 import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import com.appt.berealtest.fileExplorer.FileExplorer
-import com.appt.berealtest.ui.theme.BeRealTestTheme
+import com.appt.berealtest.fileExplorer.FileExplorerContent
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
@@ -24,12 +24,13 @@ class FileExplorerTest {
         ImageFile("imageId-0", "imageName-0"),
         ImageFile("imageId-1", "imageName-1")
     )
+
     private lateinit var receivedDirectoryId: String
     private lateinit var receivedImageId: String
 
     @Test
     fun shouldDisplayDirectories() {
-        givenAFileExplorer(mockDirectories, emptyList())
+        givenAFileExplorer()
 
         mockDirectories.forEach {
             composeTestRule.onNodeWithText(it.name).assertIsDisplayed()
@@ -38,7 +39,7 @@ class FileExplorerTest {
 
     @Test
     fun shouldDisplayImages() {
-        givenAFileExplorer(emptyList(), mockImages)
+        givenAFileExplorer()
 
         mockImages.forEach {
             composeTestRule.onNodeWithText(it.name).assertIsDisplayed()
@@ -47,27 +48,39 @@ class FileExplorerTest {
 
     @Test
     fun shouldNotifyWhenDirectoryClicked() {
-        givenAFileExplorer(mockDirectories, emptyList())
+        givenAFileExplorer()
         composeTestRule.onNodeWithText(mockDirectories[0].name).performClick()
         assertEquals(mockDirectories[0].id, receivedDirectoryId)
     }
 
     @Test
     fun shouldNotifyWhenImageClicked() {
-        givenAFileExplorer(emptyList(), mockImages)
+        givenAFileExplorer()
         composeTestRule.onNodeWithText(mockImages[0].name).performClick()
-        assertEquals(mockDirectories[0].id, receivedDirectoryId)
+        assertEquals(mockImages[0].id, receivedImageId)
     }
 
-    private fun givenAFileExplorer(directories: List<FileDirectory>, images: List<ImageFile>) {
+    @Test
+    fun shouldDisplayLoadingWhenIsLoadingTrue() {
+        givenAFileExplorer(true)
+        composeTestRule.onNodeWithTag(testTag = "LoadingIndicator").assertIsDisplayed()
+    }
+
+    @Test
+    fun shouldNotDisplayLoadingWhenIsLoadingFalse() {
+        givenAFileExplorer(false)
+        composeTestRule.onNodeWithTag(testTag = "LoadingIndicator").assertDoesNotExist()
+    }
+
+    private fun givenAFileExplorer(isLoading: Boolean = false) {
         composeTestRule.setContent {
-            BeRealTestTheme {
-                FileExplorer(directories, images, {
-                    receivedDirectoryId = it
-                }, {
-                    receivedImageId = it
-                })
-            }
+            FileExplorerContent(
+                isLoading,
+                mockDirectories,
+                mockImages,
+                { receivedDirectoryId = it },
+                { receivedImageId = it }
+            )
         }
     }
 }
