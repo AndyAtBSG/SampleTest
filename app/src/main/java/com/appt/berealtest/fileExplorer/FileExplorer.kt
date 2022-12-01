@@ -1,7 +1,7 @@
 package com.appt.berealtest.fileExplorer
 
-import FileDirectory
-import ImageFile
+import com.appt.berealtest.models.FileDirectory
+import com.appt.berealtest.models.ImageFile
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -19,8 +19,6 @@ import androidx.compose.material.icons.rounded.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
@@ -43,7 +41,7 @@ fun FileExplorer(
         viewModel.openDirectory(directoryId, signOut)
     }
 
-    val uiState = viewModel.uiState.value
+    val uiState = viewModel.uiState
 
     FileExplorerContent(
         isLoading = uiState.isLoading,
@@ -74,7 +72,7 @@ fun FileExplorerContent(
         if (isLoading) {
             CircularProgressIndicator(
                 modifier = Modifier.Companion
-                    .align(CenterHorizontally)
+                    .align(Alignment.CenterHorizontally)
                     .testTag("LoadingIndicator"),
 
                 )
@@ -121,7 +119,7 @@ private fun ItemDirectory(fileDirectory: FileDirectory, onDirectorySelected: (id
             Icons.Rounded.Folder,
             stringResource(R.string.contentDescription_DirectoryItem, fileDirectory.name),
             modifier = Modifier
-                .align(CenterVertically)
+                .align(Alignment.CenterVertically)
                 .padding(0.dp, 0.dp, 8.dp, 0.dp)
         )
         Text(fileDirectory.name)
@@ -142,7 +140,7 @@ private fun ItemImage(image: ImageFile, onOnImageSelected: (id: String) -> Unit)
             imageVector = Icons.Rounded.Image,
             contentDescription = stringResource(R.string.contentDescription_ImageItem, image.name),
             modifier = Modifier
-                .align(CenterVertically)
+                .align(Alignment.CenterVertically)
                 .padding(0.dp, 0.dp, 8.dp, 0.dp)
         )
         Text(image.name)

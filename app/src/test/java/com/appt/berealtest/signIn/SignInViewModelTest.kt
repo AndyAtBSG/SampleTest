@@ -2,7 +2,7 @@
 
 package com.appt.berealtest.signIn
 
-import FileDirectory
+import com.appt.berealtest.models.FileDirectory
 import com.appt.berealtest.MockBeRealImageService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

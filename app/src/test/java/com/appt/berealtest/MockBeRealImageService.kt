@@ -1,7 +1,7 @@
 package com.appt.berealtest
 
-import FileDirectory
-import ImageFile
+import com.appt.berealtest.models.FileDirectory
+import com.appt.berealtest.models.ImageFile
 import com.appt.berealtest.services.BeRealImageService
 import com.appt.berealtest.services.GetDirectoryResponse
 import com.appt.berealtest.services.SignInResponse
