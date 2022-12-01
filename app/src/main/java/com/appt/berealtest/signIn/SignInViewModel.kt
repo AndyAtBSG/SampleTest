@@ -24,6 +24,20 @@ class SignInViewModel(private val imageService: BeRealImageService) : ViewModel(
         password: String,
         onSignInSuccess: (rootDirectoryId: String) -> Unit
     ) {
+        if (username.isEmpty() || password.isEmpty()) {
+            uiState.value = uiState.value.copy(
+                showError = true
+            )
+        } else {
+            makeSignInRequest(username, password, onSignInSuccess)
+        }
+    }
+
+    private fun makeSignInRequest(
+        username: String,
+        password: String,
+        onSignInSuccess: (rootDirectoryId: String) -> Unit
+    ) {
         uiState.value = uiState.value.copy(
             showError = false,
             isLoading = true
