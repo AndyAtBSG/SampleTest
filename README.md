@@ -23,3 +23,4 @@ Notes:
 - Pass data by ID. It can be slower but it forces you to be more robust in the end
 - Theming and styling. I didn't get too into it. I rely heavily on designers. Reuse styles
 - Persistence (not doing because of error handling)
+- Repositories
