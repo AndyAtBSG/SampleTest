@@ -6,6 +6,8 @@ import com.appt.berealtest.models.FileDirectory
 import com.appt.berealtest.MockBeRealImageService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -45,6 +47,21 @@ class SignInViewModelTest {
             isLoading = false,
             showError = true
         )
+
+        assertEquals(expectedState, viewModel.uiState.value)
+    }
+
+    @Test
+    fun willHideErrorAfter3Seconds() = runTest {
+        Dispatchers.setMain(StandardTestDispatcher(testScheduler))
+        viewModel.signIn("", "") {}
+
+        val expectedState = SignInUiState(
+            isLoading = false,
+            showError = false
+        )
+
+        advanceTimeBy(3001)
 
         assertEquals(expectedState, viewModel.uiState.value)
     }

@@ -9,6 +9,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import com.appt.berealtest.BeRealApplication
 import com.appt.berealtest.services.BeRealImageService
 import com.appt.berealtest.services.SignInResponse
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 data class SignInUiState(
@@ -28,6 +29,12 @@ class SignInViewModel(private val imageService: BeRealImageService) : ViewModel(
             uiState.value = uiState.value.copy(
                 showError = true
             )
+            viewModelScope.launch {
+                delay(3000)
+                uiState.value = uiState.value.copy(
+                    showError = false
+                )
+            }
         } else {
             makeSignInRequest(username, password, onSignInSuccess)
         }

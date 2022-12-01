@@ -1,5 +1,10 @@
 package com.appt.berealtest.signIn
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -73,13 +78,19 @@ fun SignInContent(
 
         TextField(
             value = password,
-            onValueChange = { password = it },
+            onValueChange = {
+                password = it
+            },
             label = { Text(stringResource(R.string.password)) },
             modifier = Modifier.fillMaxWidth(),
             visualTransformation = PasswordVisualTransformation()
         )
 
-        if (showError) {
+        AnimatedVisibility(
+            showError,
+            enter = expandVertically() + fadeIn(),
+            exit = shrinkVertically() + fadeOut()
+        ) {
             Text(
                 text = stringResource(R.string.error),
                 color = Color.Red
