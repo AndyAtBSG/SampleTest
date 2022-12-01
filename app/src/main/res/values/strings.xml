@@ -12,6 +12,5 @@
     <string name="contentDescription_DirectoryItem">Directory %1$s!</string>
     <string name="contentDescription_ImageItem">Image %1$s!</string>
 
-    <string name="imageUrl">https://live.staticflickr.com/5487/11272552034_1f7cf3a71c_b.jpg</string>
     <string name="contentDescriptionImage">Selected Image</string>
 </resources>

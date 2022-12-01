@@ -18,6 +18,8 @@ android {
         vectorDrawables {
             useSupportLibrary true
         }
+
+        buildConfigField "String", "SERVER_URL", "http://163.172.147.216:8080"
     }
 
     buildTypes {
