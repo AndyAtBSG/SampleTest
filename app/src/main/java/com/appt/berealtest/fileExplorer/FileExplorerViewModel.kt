@@ -18,7 +18,7 @@ data class FileExplorerUiState(
 )
 
 class FileExplorerViewModel(
-    private val imageService: BeRealImageService
+    private val imageService: BeRealImageService,
 ) : ViewModel() {
     val uiState = mutableStateOf(FileExplorerUiState())
 
