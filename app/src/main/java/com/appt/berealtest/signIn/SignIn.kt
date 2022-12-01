@@ -3,16 +3,14 @@ package com.appt.berealtest.signIn
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -82,11 +80,19 @@ fun SignInContent(
 
         Button(
             onClick = { signIn(username.value.text, password.value.text) },
+            enabled = !isLoading,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(0.dp, 24.dp)
         ) {
             Text(text = stringResource(R.string.signIn))
+            if (isLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier
+                        .testTag("LoadingIndicator")
+                        .padding(16.dp, 0.dp, 0.dp, 0.dp)
+                )
+            }
         }
 
     }
@@ -97,8 +103,8 @@ fun SignInContent(
 fun SignInPreview() {
     BeRealTestTheme {
         SignInContent(
-            isLoading = false,
-            showError = false,
+            isLoading = true,
+            showError = true,
             signIn = { _, _ -> }
         )
     }
