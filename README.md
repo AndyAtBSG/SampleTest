@@ -15,3 +15,4 @@ Notes:
 - Error handling
 - String resources and URLs
 - Pass data by ID. It can be slower but it forces you to be more robust in the end
+- Themeing and styling. I didn't get too into it. I rely heavily on designers. Reuse styles

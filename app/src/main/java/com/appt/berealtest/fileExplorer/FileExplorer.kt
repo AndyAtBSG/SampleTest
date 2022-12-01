@@ -5,18 +5,25 @@ import ImageFile
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Email
-import androidx.compose.material.icons.rounded.Send
+import androidx.compose.material.icons.rounded.Folder
+import androidx.compose.material.icons.rounded.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.appt.berealtest.R
 import com.appt.berealtest.ui.theme.BeRealTestTheme
@@ -52,7 +59,13 @@ fun FileExplorerContent(
     openImage: (imageId: String) -> Unit,
 ) {
     Column {
-        Text(stringResource(R.string.fileExplorerTitle))
+        Text(
+            stringResource(R.string.fileExplorerTitle),
+            style = MaterialTheme.typography.h5,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(0.dp, 24.dp),
+        )
         LazyColumn {
             items(
                 items = directories,
@@ -73,14 +86,19 @@ fun FileExplorerContent(
 
 @Composable
 fun ItemDirectory(fileDirectory: FileDirectory, onDirectorySelected: (id: String) -> Unit) {
-    Row(
-        modifier = Modifier.clickable {
+    Row(modifier = Modifier
+        .clickable {
             onDirectorySelected(fileDirectory.id)
         }
+        .fillMaxSize()
+        .padding(8.dp, 8.dp)
     ) {
         Icon(
-            Icons.Rounded.Send,
-            stringResource(R.string.contentDescription_DirectoryItem, fileDirectory.name)
+            Icons.Rounded.Folder,
+            stringResource(R.string.contentDescription_DirectoryItem, fileDirectory.name),
+            modifier = Modifier
+                .align(CenterVertically)
+                .padding(0.dp, 0.dp, 8.dp, 0.dp)
         )
         Text(fileDirectory.name)
     }
@@ -88,18 +106,38 @@ fun ItemDirectory(fileDirectory: FileDirectory, onDirectorySelected: (id: String
 
 @Composable
 fun ItemImage(image: ImageFile, onOnImageSelected: (id: String) -> Unit) {
-    Row(modifier = Modifier.clickable {
-        onOnImageSelected(image.id)
-    }) {
-        Icon(Icons.Rounded.Email, stringResource(R.string.contentDescription_ImageItem, image.name))
+    Row(modifier = Modifier
+        .clickable {
+            onOnImageSelected(image.id)
+        }
+        .fillMaxSize()
+        .padding(8.dp, 8.dp)
+    ) {
+        Icon(
+            tint = Color.Blue,
+            imageVector = Icons.Rounded.Image,
+            contentDescription = stringResource(R.string.contentDescription_ImageItem, image.name),
+            modifier = Modifier
+                .align(CenterVertically)
+                .padding(0.dp, 0.dp, 8.dp, 0.dp)
+        )
         Text(image.name)
     }
 }
+
 
 @Preview(showBackground = true)
 @Composable
 fun FileExplorerPreview() {
     BeRealTestTheme {
-        FileExplorerContent(emptyList(), emptyList(), {}, {})
+        FileExplorerContent(
+            listOf(
+                FileDirectory("123", "A Directory"),
+                FileDirectory("456", "Another Directory With A Really Really Really Long Name"),
+            ),
+            listOf(
+                ImageFile("654", "An Image"),
+                ImageFile("321", "An Image With A Really Really Really Long Filename")
+            ), {}, {})
     }
 }
