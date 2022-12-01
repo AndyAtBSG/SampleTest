@@ -1,4 +1,4 @@
-package com.appt.berealtest
+package com.appt.berealtest.fileExplorer
 
 import FileDirectory
 import ImageFile
@@ -13,34 +13,59 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.Send
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.appt.berealtest.R
 import com.appt.berealtest.ui.theme.BeRealTestTheme
 
 @Composable
 fun FileExplorer(
+    directoryId: String,
+    openDirectory: (directoryId: String) -> Unit,
+    openImage: (imageId: String) -> Unit,
+    signOut: () -> Unit,
+    viewModel: FileExplorerViewModel = viewModel(factory = FileExplorerViewModel.Factory)
+) {
+    LaunchedEffect(directoryId) {
+        viewModel.openDirectory(directoryId, signOut)
+    }
+
+    val uiState = viewModel.uiState.value
+
+    FileExplorerContent(
+        directories = uiState.subDirectories,
+        images = uiState.images,
+        openDirectory = openDirectory,
+        openImage = openImage
+    )
+
+}
+
+@Composable
+fun FileExplorerContent(
     directories: List<FileDirectory>,
     images: List<ImageFile>,
-    onDirectorySelected: (id: String) -> Unit,
-    onOnImageSelected: (id: String) -> Unit
+    openDirectory: (directoryId: String) -> Unit,
+    openImage: (imageId: String) -> Unit,
 ) {
     Column {
-        Text(text = "Explorer")
+        Text(stringResource(R.string.fileExplorerTitle))
         LazyColumn {
-
             items(
                 items = directories,
                 key = { it.id }
             ) {
-                ItemDirectory(it, onDirectorySelected)
+                ItemDirectory(it, openDirectory)
             }
 
             items(
                 items = images,
                 key = { it.id }
             ) {
-                ItemImage(it, onOnImageSelected)
+                ItemImage(it, openImage)
             }
         }
     }
@@ -55,7 +80,7 @@ fun ItemDirectory(fileDirectory: FileDirectory, onDirectorySelected: (id: String
     ) {
         Icon(
             Icons.Rounded.Send,
-            stringResource(R.string.contentDescription_Directory, fileDirectory.name)
+            stringResource(R.string.contentDescription_DirectoryItem, fileDirectory.name)
         )
         Text(fileDirectory.name)
     }
@@ -66,7 +91,7 @@ fun ItemImage(image: ImageFile, onOnImageSelected: (id: String) -> Unit) {
     Row(modifier = Modifier.clickable {
         onOnImageSelected(image.id)
     }) {
-        Icon(Icons.Rounded.Email, stringResource(R.string.contentDescription_Image, image.name))
+        Icon(Icons.Rounded.Email, stringResource(R.string.contentDescription_ImageItem, image.name))
         Text(image.name)
     }
 }
@@ -75,6 +100,6 @@ fun ItemImage(image: ImageFile, onOnImageSelected: (id: String) -> Unit) {
 @Composable
 fun FileExplorerPreview() {
     BeRealTestTheme {
-        FileExplorer(emptyList(), emptyList(), {}, {})
+        FileExplorerContent(emptyList(), emptyList(), {}, {})
     }
 }

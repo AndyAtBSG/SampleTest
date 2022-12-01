@@ -8,11 +8,13 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.appt.berealtest.fileExplorer.FileExplorer
+import com.appt.berealtest.imageViewer.ImageViewer
+import com.appt.berealtest.signIn.SignIn
 import com.appt.berealtest.ui.theme.BeRealTestTheme
 
 class MainActivity : ComponentActivity() {
@@ -24,7 +26,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    MainActivityContent()
+                    val navController = rememberNavController()
+                    NavigationComponent(navController)
                 }
             }
         }
@@ -32,40 +35,41 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun MainActivityContent(viewModel: FileExplorerViewModel = viewModel(factory = FileExplorerViewModel.Factory)) {
-    val navController = rememberNavController()
-
-    NavHost(navController = navController, startDestination = "signIn") {
-        composable("signIn/{error}") {
-            SignIn(
-                error = uiState.error,
-                signIn = { username, password -> viewModel.signIn(username, password) }
-            )
+fun NavigationComponent(
+    navController: NavHostController
+) {
+    NavHost(
+        navController = navController,
+        startDestination = "signIn"
+    ) {
+        val openDirectory = { directoryId: String ->
+            navController.navigate("fileExplorer/${directoryId}")
         }
-    }
-    val uiState = viewModel.uiState.value
 
-    if (uiState.selectedImage != null) {
-        ImageHolder(uiState.selectedImage)
-    } else if (uiState.signedIn) {
-        FileExplorer(
-            uiState.directories,
-            uiState.images,
-            viewModel::openDirectory,
-            viewModel::selectImage
-        )
-    } else {
-        SignIn(
-            error = uiState.error,
-            signIn = { username, password -> viewModel.signIn(username, password) }
-        )
-    }
-}
+        val openImage = { imageId: String ->
+            navController.navigate("imageHolder/${imageId}")
+        }
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    BeRealTestTheme {
-        SignIn(error = false, signIn = { _, _ -> })
+        val signOut = {
+            navController.navigate("signIn") {
+                popUpTo("signIn") { inclusive = true }
+            }
+        }
+
+        composable("signIn") {
+            SignIn(openDirectory)
+        }
+
+        composable("fileExplorer/{directoryId}") {
+            val directoryId = it.arguments?.getString("directoryId")!!
+
+            FileExplorer(directoryId, openDirectory, openImage, signOut)
+        }
+
+        composable("imageHolder/{imageId}") {
+            val imageId = it.arguments?.getString("imageId")!!
+
+            ImageViewer(imageId)
+        }
     }
 }

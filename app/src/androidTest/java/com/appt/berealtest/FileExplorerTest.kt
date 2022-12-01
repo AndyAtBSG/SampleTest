@@ -6,6 +6,7 @@ import androidx.compose.ui.test.assertIsDisplayed
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import com.appt.berealtest.fileExplorer.FileExplorer
 import com.appt.berealtest.ui.theme.BeRealTestTheme
 import org.junit.Assert.assertEquals
 import org.junit.Rule

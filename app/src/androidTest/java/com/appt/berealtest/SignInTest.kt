@@ -5,6 +5,7 @@ import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
+import com.appt.berealtest.signIn.SignIn
 import com.appt.berealtest.ui.theme.BeRealTestTheme
 import org.junit.Assert.assertEquals
 import org.junit.Rule

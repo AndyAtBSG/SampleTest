@@ -1,12 +1,17 @@
 <resources>
     <string name="app_name">BeRealTest</string>
+
+    <string name="signInTitle">Welcome</string>
+    <string name="signIn">Sign In</string>
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="error">Something went wrong</string>
-    <string name="signInTitle">Welcome</string>
-    <string name="signIn">Sign In</string>
 
-    <string name="contentDescription_Directory">Directory %1$s!</string>
-    <string name="contentDescription_Image">Image %1$s!</string>
+
+    <string name="fileExplorerTitle">File Explorer</string>
+    <string name="contentDescription_DirectoryItem">Directory %1$s!</string>
+    <string name="contentDescription_ImageItem">Image %1$s!</string>
+
     <string name="imageUrl">https://live.staticflickr.com/5487/11272552034_1f7cf3a71c_b.jpg</string>
+    <string name="contentDescriptionImage">Selected Image</string>
 </resources>

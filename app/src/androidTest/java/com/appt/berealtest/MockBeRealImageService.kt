@@ -14,8 +14,6 @@ class MockBeRealImageService : BeRealImageService {
     private var signInPassword = ""
 
     private lateinit var getDirectoryResult: CompletableDeferred<GetDirectoryResponse>
-    private var getDirectoryUsername = ""
-    private var getDirectoryPassword = ""
     private var getDirectoryId = ""
 
     override suspend fun signIn(username: String, password: String): SignInResponse {
@@ -26,12 +24,8 @@ class MockBeRealImageService : BeRealImageService {
     }
 
     override suspend fun getDirectory(
-        username: String,
-        password: String,
         directoryId: String
     ): GetDirectoryResponse {
-        getDirectoryUsername = username
-        getDirectoryPassword = password
         getDirectoryId = directoryId
         getDirectoryResult = CompletableDeferred()
         return getDirectoryResult.await()
@@ -65,12 +59,8 @@ class MockBeRealImageService : BeRealImageService {
     }
 
     fun thenGetDirectoryIsCalled(
-        expectedUsername: String,
-        expectedPassword: String,
         expectedDirectoryId: String
     ) {
-        assertEquals(expectedUsername, getDirectoryUsername)
-        assertEquals(expectedPassword, getDirectoryPassword)
         assertEquals(expectedDirectoryId, getDirectoryId)
     }
 

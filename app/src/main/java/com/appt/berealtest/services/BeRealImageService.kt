@@ -25,8 +25,6 @@ interface BeRealImageService {
     suspend fun signIn(username: String, password: String): SignInResponse
 
     suspend fun getDirectory(
-        username: String,
-        password: String,
         directoryId: String
     ): GetDirectoryResponse
 }

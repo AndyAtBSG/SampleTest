@@ -1,16 +1,16 @@
-package com.appt.berealtest;
+package com.appt.berealtest.imageViewer
 
-import ImageFile
-import androidx.compose.runtime.Composable;
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import com.appt.berealtest.R
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun ImageHolder(image: ImageFile) {
+fun ImageViewer(imageId: String) {
     GlideImage(
-        stringResource(R.string.imageUrl, image.id),
-        image.name
+        stringResource(R.string.imageUrl, imageId),
+        stringResource(R.string.contentDescriptionImage)
     )
 }

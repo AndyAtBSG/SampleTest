@@ -1,4 +1,4 @@
-package com.appt.berealtest
+package com.appt.berealtest.signIn
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Button
@@ -10,11 +10,31 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.appt.berealtest.R
 import com.appt.berealtest.ui.theme.BeRealTestTheme
 
+@Composable
+fun SignIn(
+    openRootDirectory: (directoryId: String) -> Unit,
+    viewModel: SignInViewModel = viewModel(factory = SignInViewModel.Factory)
+) {
+    val uiState = viewModel.uiState.value
+
+    SignInContent(
+        isLoading = uiState.isLoading,
+        showError = uiState.showError
+    ) { username, password ->
+        viewModel.signIn(username, password, openRootDirectory)
+    }
+}
 
 @Composable
-fun SignIn(error: Boolean, signIn: (username: String, password: String) -> Unit) {
+fun SignInContent(
+    isLoading: Boolean,
+    showError: Boolean,
+    signIn: (username: String, password: String) -> Unit
+) {
     val username = remember { mutableStateOf(TextFieldValue()) }
     val password = remember { mutableStateOf(TextFieldValue()) }
 
@@ -38,7 +58,7 @@ fun SignIn(error: Boolean, signIn: (username: String, password: String) -> Unit)
             Text(text = stringResource(R.string.signIn))
         }
 
-        if (error) Text(text = stringResource(R.string.error))
+        if (showError) Text(text = stringResource(R.string.error))
     }
 }
 
@@ -46,6 +66,10 @@ fun SignIn(error: Boolean, signIn: (username: String, password: String) -> Unit)
 @Composable
 fun SignInPreview() {
     BeRealTestTheme {
-        SignIn(false) { _, _ -> }
+        SignInContent(
+            isLoading = false,
+            showError = false,
+            signIn = { _, _ -> }
+        )
     }
 }
