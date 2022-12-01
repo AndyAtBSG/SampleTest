@@ -7,16 +7,14 @@ class NetworkBeRealImageService(
     private val apiService: BeRealApi,
     private val base64EncoderService: Base64EncoderService
 ) : BeRealImageService {
-    private var auth = ""
-
     override suspend fun signIn(username: String, password: String): SignInResponse {
         val credentials = "$username:$password"
         val base64 = base64EncoderService.encode(credentials)
-        auth = "Basic $base64"
+        BASE64_AUTH = "Basic $base64"
 
 
         return try {
-            val response = apiService.getMe(auth)
+            val response = apiService.getMe(BASE64_AUTH)
             val data = response.body()!!
             SignInResponse.Success(
                 FileDirectory(data.rootItem.id, data.rootItem.name)
@@ -30,7 +28,7 @@ class NetworkBeRealImageService(
         directoryId: String
     ): GetDirectoryResponse {
         return try {
-            val response = apiService.getItems(auth, directoryId)
+            val response = apiService.getItems(BASE64_AUTH, directoryId)
 
             val data = response.body()!!
 
@@ -41,5 +39,9 @@ class NetworkBeRealImageService(
         } catch (exception: Exception) {
             GetDirectoryResponse.Fail
         }
+    }
+    
+    companion object {
+        var BASE64_AUTH = ""
     }
 }

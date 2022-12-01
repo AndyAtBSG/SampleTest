@@ -24,3 +24,4 @@ Notes:
 - Theming and styling. I didn't get too into it. I rely heavily on designers. Reuse styles
 - Persistence (not doing because of error handling)
 - Repositories
+- Had to hack the service to share auth with Glide. Other options: Store auth somewhere with DI. Ues Okhttp interceptor on all requests

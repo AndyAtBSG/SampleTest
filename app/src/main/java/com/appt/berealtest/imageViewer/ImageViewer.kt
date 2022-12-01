@@ -6,6 +6,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.appt.berealtest.BuildConfig
 import com.appt.berealtest.R
+import com.appt.berealtest.services.NetworkBeRealImageService.Companion.BASE64_AUTH
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.bumptech.glide.load.model.GlideUrl
@@ -19,7 +20,7 @@ fun ImageViewer(imageId: String) {
     val url = GlideUrl(
         BuildConfig.SERVER_URL + String.format(getImageEndpoint, imageId),
         LazyHeaders.Builder()
-            .addHeader("Authorization", "Basic bm9lbDpmb29iYXI=")
+            .addHeader("Authorization", "Basic $BASE64_AUTH")
             .build()
     )
 
