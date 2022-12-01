@@ -2,7 +2,6 @@ package com.appt.berealtest.imageViewer
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import com.appt.berealtest.BuildConfig
@@ -15,7 +14,7 @@ import com.bumptech.glide.load.model.LazyHeaders
 
 private const val getImageEndpoint = "/items/%s/data"
 
-@OptIn(ExperimentalGlideComposeApi::class, ExperimentalComposeUiApi::class)
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
 fun ImageViewer(imageId: String) {
     GlideImage(
