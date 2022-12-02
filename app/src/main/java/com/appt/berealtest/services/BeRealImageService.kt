@@ -33,5 +33,8 @@ interface BeRealImageService {
         directoryId: String
     ): GetDirectoryResponse
 
-    suspend fun createDirectory(directoryId: String): CreateDirectoryResponse
+    suspend fun createDirectory(
+        parentDirectoryId: String,
+        directoryName: String,
+    ): CreateDirectoryResponse
 }

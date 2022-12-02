@@ -17,5 +17,5 @@
     <string name="createDirectoryTitle">Create Directory</string>
 
     <string name="contentDescriptionImage">Selected Image</string>
-    <string name="filenameError">Filename must be alphanumeric</string>
+    <string name="filenameInfo">Filename must be alphanumeric</string>
 </resources>

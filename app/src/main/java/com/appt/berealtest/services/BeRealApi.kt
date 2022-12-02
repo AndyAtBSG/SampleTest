@@ -2,10 +2,7 @@ package com.appt.berealtest.services
 
 import com.squareup.moshi.Json
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.http.*
 
 
 data class RootItem(
@@ -32,6 +29,10 @@ data class GetItemsResponse(
     @field:Json(name = "modificationDate") val modificationDate: String,
 )
 
+data class PostItemBody(
+    @field:Json(name = "name") val name: String,
+)
+
 interface BeRealApi {
     @GET("me")
     suspend fun getMe(@Header("Authorization") authorization: String): Response<GetMeResponse>
@@ -47,6 +48,7 @@ interface BeRealApi {
         @Header("Authorization") authorization: String,
         @Header("Content-Type") contentType: String,
         @Path("id") id: String,
+        @Body body: PostItemBody,
         @Header("Content-Disposition") contentDescription: String? = null
     ): Response<Unit>
 }

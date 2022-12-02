@@ -32,7 +32,10 @@ class MockBeRealImageService : BeRealImageService {
         return getDirectoryResult.await()
     }
 
-    override suspend fun createDirectory(directoryId: String): CreateDirectoryResponse {
+    override suspend fun createDirectory(
+        parentDirectoryId: String,
+        directoryName: String
+    ): CreateDirectoryResponse {
         TODO("Not yet implemented")
     }
 

@@ -53,8 +53,9 @@ fun FileExplorer(
         openImage = openImage,
         createDirectory = {
             viewModel.createDirectory(
-                directoryId = it,
-                onSuccess = { openDirectory(it) },
+                parentDirectoryId = directoryId,
+                newDirectoryName = it,
+                onSuccess = { openDirectory(directoryId) },
                 onError = {
                     // TODO: Display error to the user
                 }
@@ -142,10 +143,15 @@ private fun DirectoryDialog(
                 modifier = Modifier.align(CenterHorizontally)
             )
 
+            Text(
+                stringResource(R.string.filenameInfo),
+            )
+
             TextField(
                 value = filename.value,
                 onValueChange = { filename.value = it },
                 label = { Text(stringResource(R.string.directoryName)) },
+                isError = filenameError.value,
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -164,13 +170,6 @@ private fun DirectoryDialog(
                 Icon(
                     Icons.Rounded.Done,
                     stringResource(R.string.contentDescription_Confirm)
-                )
-            }
-
-            AnimatedVisibility(filenameError.value) {
-                Text(
-                    stringResource(R.string.filenameError),
-                    color = Color.Red
                 )
             }
         }

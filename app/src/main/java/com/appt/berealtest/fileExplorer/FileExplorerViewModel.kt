@@ -34,9 +34,14 @@ class FileExplorerViewModel(
         }
     }
 
-    fun createDirectory(directoryId: String, onSuccess: () -> Unit, onError: () -> Unit) {
+    fun createDirectory(
+        parentDirectoryId: String,
+        newDirectoryName: String,
+        onSuccess: () -> Unit,
+        onError: () -> Unit
+    ) {
         viewModelScope.launch {
-            val response = imageService.createDirectory(directoryId)
+            val response = imageService.createDirectory(parentDirectoryId, newDirectoryName)
 
             if (response is CreateDirectoryResponse.Success) {
                 onSuccess()

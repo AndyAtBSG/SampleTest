@@ -49,12 +49,16 @@ class NetworkBeRealImageService(
         }
     }
 
-    override suspend fun createDirectory(directoryId: String): CreateDirectoryResponse {
+    override suspend fun createDirectory(
+        parentDirectoryId: String,
+        directoryName: String
+    ): CreateDirectoryResponse {
         return try {
             val response = apiService.postItem(
                 BASE64_AUTH,
                 "application/json",
-                directoryId
+                parentDirectoryId,
+                PostItemBody(directoryName)
             )
 
             if (response.isSuccessful) {
