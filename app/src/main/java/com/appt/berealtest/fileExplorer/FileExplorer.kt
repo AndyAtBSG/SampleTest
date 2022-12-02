@@ -1,7 +1,7 @@
 package com.appt.berealtest.fileExplorer
 
-import FileDirectory
-import ImageFile
+import com.appt.berealtest.models.FileDirectory
+import com.appt.berealtest.models.ImageFile
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

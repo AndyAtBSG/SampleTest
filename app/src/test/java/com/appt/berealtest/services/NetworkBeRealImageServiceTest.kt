@@ -1,6 +1,6 @@
 package com.appt.berealtest.services
 
-import FileDirectory
+import com.appt.berealtest.models.FileDirectory
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals

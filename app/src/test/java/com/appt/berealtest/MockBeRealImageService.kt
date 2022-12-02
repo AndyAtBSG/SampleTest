@@ -1,13 +1,11 @@
 package com.appt.berealtest
 
-import FileDirectory
-import ImageFile
+import com.appt.berealtest.models.FileDirectory
 import com.appt.berealtest.services.BeRealImageService
 import com.appt.berealtest.services.CreateDirectoryResponse
 import com.appt.berealtest.services.GetDirectoryResponse
 import com.appt.berealtest.services.SignInResponse
 import kotlinx.coroutines.CompletableDeferred
-import org.junit.Assert.assertEquals
 
 class MockBeRealImageService : BeRealImageService {
     private lateinit var signInResult: CompletableDeferred<SignInResponse>
@@ -48,28 +46,4 @@ class MockBeRealImageService : BeRealImageService {
     fun whenSignInFails() {
         signInResult.complete(SignInResponse.Fail)
     }
-
-    fun whenGetDirectorySucceeds(directories: List<FileDirectory>, images: List<ImageFile>) {
-        getDirectoryResult.complete(
-            GetDirectoryResponse.Success(directories, images)
-        )
-    }
-
-    fun whenGetDirectoryFails() {
-        getDirectoryResult.complete(
-            GetDirectoryResponse.Fail
-        )
-    }
-
-    fun thenSignInIsCalled(expectedUsername: String, expectedPassword: String) {
-        assertEquals(expectedUsername, signInUsername)
-        assertEquals(expectedPassword, signInPassword)
-    }
-
-    fun thenGetDirectoryIsCalled(
-        expectedDirectoryId: String
-    ) {
-        assertEquals(expectedDirectoryId, getDirectoryId)
-    }
-
 }
