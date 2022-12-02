@@ -19,7 +19,6 @@ import androidx.compose.material.icons.rounded.Folder
 import androidx.compose.material.icons.rounded.Image
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -44,7 +43,7 @@ fun FileExplorer(
         viewModel.openDirectory(directoryId, signOut)
     }
 
-    val uiState = viewModel.uiState.value
+    val uiState = viewModel.uiState
 
     FileExplorerContent(
         isLoading = uiState.isLoading,
@@ -68,7 +67,7 @@ fun FileExplorerContent(
             stringResource(R.string.fileExplorerTitle),
             style = MaterialTheme.typography.h5,
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
+                .align(CenterHorizontally)
                 .padding(0.dp, 24.dp),
         )
 
@@ -80,7 +79,7 @@ fun FileExplorerContent(
 
                 )
         }
-        
+
         Items(directories, openDirectory, images, openImage)
     }
 }

@@ -25,7 +25,7 @@ fun SignIn(
     openRootDirectory: (directoryId: String) -> Unit,
     viewModel: SignInViewModel = viewModel(factory = SignInViewModel.Factory)
 ) {
-    val uiState = viewModel.uiState.value
+    val uiState = viewModel.uiState
 
     SignInContent(
         isLoading = uiState.isLoading,

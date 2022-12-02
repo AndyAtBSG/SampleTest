@@ -1,6 +1,8 @@
 package com.appt.berealtest.signIn
 
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewModelScope
@@ -17,7 +19,7 @@ data class SignInUiState(
 )
 
 class SignInViewModel(private val imageService: BeRealImageService) : ViewModel() {
-    val uiState = mutableStateOf(SignInUiState())
+    var uiState by mutableStateOf(SignInUiState())
 
     fun signIn(
         username: String,
@@ -25,7 +27,7 @@ class SignInViewModel(private val imageService: BeRealImageService) : ViewModel(
         onSignInSuccess: (rootDirectoryId: String) -> Unit
     ) {
         if (username.isEmpty() || password.isEmpty()) {
-            uiState.value = uiState.value.copy(
+            uiState = uiState.copy(
                 showError = true
             )
         } else {
@@ -38,7 +40,7 @@ class SignInViewModel(private val imageService: BeRealImageService) : ViewModel(
         password: String,
         onSignInSuccess: (rootDirectoryId: String) -> Unit
     ) {
-        uiState.value = uiState.value.copy(
+        uiState = uiState.copy(
             showError = false,
             isLoading = true
         )
@@ -55,14 +57,14 @@ class SignInViewModel(private val imageService: BeRealImageService) : ViewModel(
         onSignInSuccess: (rootDirectoryId: String) -> Unit,
         response: SignInResponse.Success
     ) {
-        uiState.value = uiState.value.copy(
+        uiState = uiState.copy(
             isLoading = false
         )
         onSignInSuccess(response.rootItem.id)
     }
 
     private fun handleError() {
-        uiState.value = uiState.value.copy(
+        uiState = uiState.copy(
             isLoading = false,
             showError = true
         )

@@ -2,7 +2,9 @@ package com.appt.berealtest.fileExplorer
 
 import FileDirectory
 import ImageFile
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
@@ -20,7 +22,7 @@ data class FileExplorerUiState(
 class FileExplorerViewModel(
     private val imageService: BeRealImageService,
 ) : ViewModel() {
-    val uiState = mutableStateOf(FileExplorerUiState())
+    var uiState by mutableStateOf(FileExplorerUiState())
 
     suspend fun openDirectory(directoryId: String, signOut: () -> Unit) {
         when (val response = imageService.getDirectory(directoryId)) {
@@ -30,7 +32,7 @@ class FileExplorerViewModel(
     }
 
     private fun handleGetDirectorySuccess(response: GetDirectoryResponse.Success) {
-        uiState.value = uiState.value.copy(
+        uiState = uiState.copy(
             subDirectories = response.directories,
             images = response.images
         )
