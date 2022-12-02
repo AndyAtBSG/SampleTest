@@ -39,6 +39,15 @@ class MockBeRealApiService : BeRealApi {
         TODO("Not yet implemented")
     }
 
+    override suspend fun postItem(
+        authorization: String,
+        contentType: String,
+        id: String,
+        contentDescription: String?
+    ): Response<Unit> {
+        TODO("Not yet implemented")
+    }
+
     fun whenServiceWillThrowException() {
         throwException = true
     }

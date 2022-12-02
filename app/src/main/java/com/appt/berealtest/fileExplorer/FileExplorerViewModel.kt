@@ -7,11 +7,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
+import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.appt.berealtest.BeRealApplication
 import com.appt.berealtest.services.BeRealImageService
+import com.appt.berealtest.services.CreateDirectoryResponse
 import com.appt.berealtest.services.GetDirectoryResponse
+import kotlinx.coroutines.launch
 
 data class FileExplorerUiState(
     val isLoading: Boolean = false,
@@ -28,6 +31,18 @@ class FileExplorerViewModel(
         when (val response = imageService.getDirectory(directoryId)) {
             GetDirectoryResponse.Fail -> signOut()
             is GetDirectoryResponse.Success -> handleGetDirectorySuccess(response)
+        }
+    }
+
+    fun createDirectory(directoryId: String, onSuccess: () -> Unit, onError: () -> Unit) {
+        viewModelScope.launch {
+            val response = imageService.createDirectory(directoryId)
+
+            if (response is CreateDirectoryResponse.Success) {
+                onSuccess()
+            } else {
+                onError()
+            }
         }
     }
 

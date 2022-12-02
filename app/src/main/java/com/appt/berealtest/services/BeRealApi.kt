@@ -4,6 +4,7 @@ import com.squareup.moshi.Json
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Header
+import retrofit2.http.POST
 import retrofit2.http.Path
 
 
@@ -40,4 +41,12 @@ interface BeRealApi {
         @Header("Authorization") authorization: String,
         @Path("id") id: String
     ): Response<List<GetItemsResponse>>
+
+    @POST("items/{id}")
+    suspend fun postItem(
+        @Header("Authorization") authorization: String,
+        @Header("Content-Type") contentType: String,
+        @Path("id") id: String,
+        @Header("Content-Disposition") contentDescription: String? = null
+    ): Response<Unit>
 }

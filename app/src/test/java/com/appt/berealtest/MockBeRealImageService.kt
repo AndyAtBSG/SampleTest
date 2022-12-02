@@ -3,6 +3,7 @@ package com.appt.berealtest
 import FileDirectory
 import ImageFile
 import com.appt.berealtest.services.BeRealImageService
+import com.appt.berealtest.services.CreateDirectoryResponse
 import com.appt.berealtest.services.GetDirectoryResponse
 import com.appt.berealtest.services.SignInResponse
 import kotlinx.coroutines.CompletableDeferred
@@ -29,6 +30,10 @@ class MockBeRealImageService : BeRealImageService {
         getDirectoryId = directoryId
         getDirectoryResult = CompletableDeferred()
         return getDirectoryResult.await()
+    }
+
+    override suspend fun createDirectory(directoryId: String): CreateDirectoryResponse {
+        TODO("Not yet implemented")
     }
 
     fun whenSignInSucceeds(rootItem: FileDirectory) {

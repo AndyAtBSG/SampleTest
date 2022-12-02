@@ -20,6 +20,11 @@ sealed class GetDirectoryResponse {
     ) : GetDirectoryResponse()
 }
 
+sealed interface CreateDirectoryResponse {
+    object Success : CreateDirectoryResponse
+
+    object Fail : CreateDirectoryResponse
+}
 
 interface BeRealImageService {
     suspend fun signIn(username: String, password: String): SignInResponse
@@ -27,4 +32,6 @@ interface BeRealImageService {
     suspend fun getDirectory(
         directoryId: String
     ): GetDirectoryResponse
+
+    suspend fun createDirectory(directoryId: String): CreateDirectoryResponse
 }

@@ -35,7 +35,7 @@ class SignInViewModelTest {
             showError = false
         )
 
-        assertEquals(expectedState, viewModel.uiState.value)
+        assertEquals(expectedState, viewModel.uiState)
     }
 
     @Test
@@ -46,7 +46,7 @@ class SignInViewModelTest {
             showError = true
         )
 
-        assertEquals(expectedState, viewModel.uiState.value)
+        assertEquals(expectedState, viewModel.uiState)
     }
 
     @Test
@@ -57,7 +57,7 @@ class SignInViewModelTest {
             showError = true
         )
 
-        assertEquals(expectedState, viewModel.uiState.value)
+        assertEquals(expectedState, viewModel.uiState)
     }
 
     @Test
@@ -68,14 +68,14 @@ class SignInViewModelTest {
             isLoading = true,
             showError = false
         )
-        assertEquals(loadingState, viewModel.uiState.value)
+        assertEquals(loadingState, viewModel.uiState)
 
         service.whenSignInFails()
         val expectedState = SignInUiState(
             isLoading = false,
             showError = true
         )
-        assertEquals(expectedState, viewModel.uiState.value)
+        assertEquals(expectedState, viewModel.uiState)
     }
 
     @Test
@@ -91,7 +91,7 @@ class SignInViewModelTest {
             showError = false
         )
 
-        assertEquals(expectedState, viewModel.uiState.value)
+        assertEquals(expectedState, viewModel.uiState)
         assertEquals(receivedDirectoryId, "123")
     }
 }

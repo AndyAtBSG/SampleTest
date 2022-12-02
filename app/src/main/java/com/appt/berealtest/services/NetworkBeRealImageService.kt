@@ -12,13 +12,17 @@ class NetworkBeRealImageService(
         val base64 = base64EncoderService.encode(credentials)
         BASE64_AUTH = "Basic $base64"
 
-
         return try {
             val response = apiService.getMe(BASE64_AUTH)
-            val data = response.body()!!
-            SignInResponse.Success(
-                FileDirectory(data.rootItem.id, data.rootItem.name)
-            )
+
+            if (response.isSuccessful) {
+                val data = response.body()!!
+                SignInResponse.Success(
+                    FileDirectory(data.rootItem.id, data.rootItem.name)
+                )
+            } else {
+                SignInResponse.Fail
+            }
         } catch (exception: Exception) {
             SignInResponse.Fail
         }
@@ -30,17 +34,39 @@ class NetworkBeRealImageService(
         return try {
             val response = apiService.getItems(BASE64_AUTH, directoryId)
 
-            val data = response.body()!!
+            if (response.isSuccessful) {
+                val data = response.body()!!
 
-            val directories = data.filter { it.isDir }.map { FileDirectory(it.id, it.name) }
-            val images = data.filter { !it.isDir }.map { ImageFile(it.id, it.name) }
+                val directories = data.filter { it.isDir }.map { FileDirectory(it.id, it.name) }
+                val images = data.filter { !it.isDir }.map { ImageFile(it.id, it.name) }
 
-            GetDirectoryResponse.Success(directories, images)
+                GetDirectoryResponse.Success(directories, images)
+            } else {
+                GetDirectoryResponse.Fail
+            }
         } catch (exception: Exception) {
             GetDirectoryResponse.Fail
         }
     }
-    
+
+    override suspend fun createDirectory(directoryId: String): CreateDirectoryResponse {
+        return try {
+            val response = apiService.postItem(
+                BASE64_AUTH,
+                "application/json",
+                directoryId
+            )
+
+            if (response.isSuccessful) {
+                CreateDirectoryResponse.Success
+            } else {
+                CreateDirectoryResponse.Fail
+            }
+        } catch (exception: Exception) {
+            CreateDirectoryResponse.Fail
+        }
+    }
+
     companion object {
         var BASE64_AUTH = ""
     }

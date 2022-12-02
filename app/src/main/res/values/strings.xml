@@ -10,7 +10,12 @@
 
     <string name="fileExplorerTitle">File Explorer</string>
     <string name="contentDescription_DirectoryItem">Directory %1$s!</string>
+    <string name="contentDescription_NewDirectory">Create Directory</string>
+    <string name="contentDescription_Confirm">Confirm</string>
     <string name="contentDescription_ImageItem">Image %1$s!</string>
+    <string name="directoryName">Directory Name</string>
+    <string name="createDirectoryTitle">Create Directory</string>
 
     <string name="contentDescriptionImage">Selected Image</string>
+    <string name="filenameError">Filename must be alphanumeric</string>
 </resources>

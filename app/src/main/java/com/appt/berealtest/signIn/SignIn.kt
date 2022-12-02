@@ -4,6 +4,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -13,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -62,14 +65,21 @@ fun SignInContent(
             value = username.value,
             onValueChange = { username.value = it },
             label = { Text(stringResource(R.string.username)) },
-            modifier = Modifier.fillMaxWidth()
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            modifier = Modifier.fillMaxWidth(),
         )
 
         TextField(
             value = password.value,
             onValueChange = { password.value = it },
             label = { Text(stringResource(R.string.password)) },
-            modifier = Modifier.fillMaxWidth()
+            singleLine = true,
+            modifier = Modifier
+                .fillMaxWidth(),
+            keyboardActions = KeyboardActions(
+                onDone = { signIn(username.value.text, password.value.text) }
+            )
         )
 
         if (showError) {

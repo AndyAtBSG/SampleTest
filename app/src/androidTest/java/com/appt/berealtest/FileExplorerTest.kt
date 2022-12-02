@@ -79,7 +79,8 @@ class FileExplorerTest {
                 mockDirectories,
                 mockImages,
                 { receivedDirectoryId = it },
-                { receivedImageId = it }
+                { receivedImageId = it },
+                {}
             )
         }
     }
