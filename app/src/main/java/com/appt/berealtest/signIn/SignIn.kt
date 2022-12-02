@@ -1,16 +1,14 @@
 package com.appt.berealtest.signIn
 
-import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.*
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
@@ -44,8 +42,8 @@ fun SignInContent(
     showError: Boolean,
     signIn: (username: String, password: String) -> Unit
 ) {
-    val username = remember { mutableStateOf(TextFieldValue()) }
-    val password = remember { mutableStateOf(TextFieldValue()) }
+    var username by remember { mutableStateOf(TextFieldValue()) }
+    var password by remember { mutableStateOf(TextFieldValue()) }
 
     Column(
         modifier = Modifier
@@ -57,13 +55,13 @@ fun SignInContent(
             text = stringResource(R.string.signInTitle),
             style = MaterialTheme.typography.h5,
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
+                .align(CenterHorizontally)
                 .padding(0.dp, 24.dp),
         )
 
         TextField(
-            value = username.value,
-            onValueChange = { username.value = it },
+            value = username,
+            onValueChange = { username = it },
             label = { Text(stringResource(R.string.username)) },
             singleLine = true,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -71,18 +69,22 @@ fun SignInContent(
         )
 
         TextField(
-            value = password.value,
-            onValueChange = { password.value = it },
+            value = password,
+            onValueChange = { password = it },
             label = { Text(stringResource(R.string.password)) },
             singleLine = true,
             modifier = Modifier
                 .fillMaxWidth(),
             keyboardActions = KeyboardActions(
-                onDone = { signIn(username.value.text, password.value.text) }
+                onDone = { signIn(username.text, password.text) }
             )
         )
 
-        if (showError) {
+        AnimatedVisibility(
+            showError,
+            enter = expandVertically() + fadeIn(),
+            exit = shrinkVertically() + fadeOut()
+        ) {
             Text(
                 text = stringResource(R.string.error),
                 color = Color.Red
@@ -90,10 +92,10 @@ fun SignInContent(
         }
 
         Button(
-            onClick = { signIn(username.value.text, password.value.text) },
+            onClick = { signIn(username.text, password.text) },
             enabled = !isLoading,
             modifier = Modifier
-                .align(Alignment.CenterHorizontally)
+                .align(CenterHorizontally)
                 .padding(0.dp, 24.dp)
         ) {
             Text(
@@ -114,7 +116,7 @@ fun SignInContent(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun SignInPreview() {
     BeRealTestTheme {

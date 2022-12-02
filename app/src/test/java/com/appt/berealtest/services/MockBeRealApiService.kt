@@ -43,6 +43,7 @@ class MockBeRealApiService : BeRealApi {
         authorization: String,
         contentType: String,
         id: String,
+        body: PostItemBody,
         contentDescription: String?
     ): Response<Unit> {
         TODO("Not yet implemented")

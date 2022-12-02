@@ -122,8 +122,8 @@ private fun DirectoryDialog(
     openDialog: MutableState<Boolean>,
     createDirectory: (directoryId: String) -> Unit
 ) {
-    val filename = remember { mutableStateOf(TextFieldValue()) }
-    val filenameError = remember { mutableStateOf(false) }
+    var filename by remember { mutableStateOf(TextFieldValue()) }
+    var filenameError by remember { mutableStateOf(false) }
 
     Dialog(
         onDismissRequest = { openDialog.value = false },
@@ -148,21 +148,21 @@ private fun DirectoryDialog(
             )
 
             TextField(
-                value = filename.value,
-                onValueChange = { filename.value = it },
+                value = filename,
+                onValueChange = { filename = it },
                 label = { Text(stringResource(R.string.directoryName)) },
-                isError = filenameError.value,
+                isError = filenameError,
                 modifier = Modifier
                     .fillMaxWidth()
             )
 
 
             Button(onClick = {
-                val directoryId = filename.value.text
+                val directoryId = filename.text
                 if (directoryNameValidation.matches(directoryId)) {
                     createDirectory(directoryId)
                 } else {
-                    filenameError.value = true
+                    filenameError = true
                 }
 
             }
@@ -242,7 +242,7 @@ private fun ItemImage(image: ImageFile, onOnImageSelected: (id: String) -> Unit)
 }
 
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 fun FileExplorerPreview() {
     BeRealTestTheme {
